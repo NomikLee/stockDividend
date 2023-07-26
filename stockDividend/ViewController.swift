@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import OSLog
 
 class ViewController: UIViewController {
     
-    let logout = Logger()
-    var index = 0
+    var pageNum = 0
     
     @IBOutlet weak var stockPageControl: UIPageControl!
     @IBOutlet weak var stockSelect: UISegmentedControl!
@@ -22,28 +20,25 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func updateUI() {
-        stockSelect.selectedSegmentIndex = index
-        stockPageControl.currentPage = index
+    func pageSync() {
+        stockSelect.selectedSegmentIndex = pageNum
+        stockPageControl.currentPage = pageNum
     }
     
     @IBAction func stockChangePage(_ sender: Any) {
         let point = CGPoint(x: scollView.bounds.width * CGFloat((sender as AnyObject).currentPage), y: 0)
         scollView.setContentOffset(point, animated: true)
-        index = stockPageControl.currentPage
-        updateUI()
+        pageNum = stockPageControl.currentPage
+        pageSync()
     }
     
     @IBAction func stockSelectPage(_ sender: Any) {
         let point = CGPoint(x: scollView.bounds.width * CGFloat(stockSelect.selectedSegmentIndex), y: 0)
         scollView.setContentOffset(point, animated: true)
-        index = stockSelect.selectedSegmentIndex
-        updateUI()
+        pageNum = stockSelect.selectedSegmentIndex
+        pageSync()
     }
 }
-    
-
-
 
 extension ViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
